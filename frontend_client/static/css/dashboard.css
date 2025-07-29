@@ -1,0 +1,125 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: beige;
+  margin: 0;
+}
+
+/* navigation bar */
+#nav-bar {
+  height: 10vh;
+  width: 100%;
+  background-color: rgb(1, 1, 23);
+  border-bottom: 5px dashed white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: xx-large;
+}
+
+#nav-bar a {
+  color: white;
+  margin-right: 60px;
+}
+
+/* main css */
+#main-area {
+  display: flex;
+  height: 90vh; /* Ensure this height fits within the viewport */
+}
+
+#col1 {
+  height: 100%; /* Adjust to fit within the container */
+  width: 75vw;
+  display: flex;
+  flex-direction: column;
+}
+
+#col2 {
+  width: 25vw;
+  height: 90vh; /* Adjust to fit within the container */
+  max-width: 25vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* map */
+#map {
+  height: 60vh;
+  width: 100%; /* Adjust width to fit within col1 */
+  z-index: 3;
+}
+
+/* Console Container */
+#input_box{
+    display: flex;
+    flex-direction: row;
+}
+#command{
+    width: 100%;
+}
+
+#output {
+    background-color: black;
+    color: white;
+    white-space: pre;
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+/* hud container */
+#hud {
+  height: 50%;
+}
+
+/* camera container */
+#camera {
+  height: 50%; /* Adjust height as needed */
+  border: 1px solid black;
+}
+#camera img {
+  height: 45vh;
+  width: 25vw;
+}
+
+/* script mode */
+#scriptmodeenable{
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100vw; /* Full width (cover the whole page) */
+  height: 100vh; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 4; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+#overlay{
+  padding: 4px;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  height: 50%;
+  width: 50%;
+  background-color: white;
+  display: flexbox;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+#script{
+  height: 80%;
+  width: 80%;
+}
+#overlay input{
+  height: 40px;
+  width: 90px;
+}

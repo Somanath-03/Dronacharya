@@ -1,0 +1,10 @@
+important variables
+sitl port out - 14551 , 14552
+
+
+Venv
+    .\dronacharya_venv\Scripts\activate to activate the Venv
+
+sitl command
+sim_vehicle.py -v copter --console --map -w --out 127.0.0.1:14551 --out 127.0.0.1:14552
+mavproxy.py --master=udp:127.0.0.1:14552

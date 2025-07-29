@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dronacharya - Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <!-- leaflet -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <!-- socket -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.min.js"></script>
+  </head>
+
+  <body>
+  <div id="content">
+    <div id="scriptmodeenable" >
+      <div id="overlay">
+        <h1 onclick="off()">Enter Mavproxy Script Commands</h1>
+        <textarea id="script"></textarea>
+        <input type="submit" value="Simulate" onclick="simulate()">
+      </div>
+    </div>
+
+    <!-- navigation bar for the individual data -->
+    <div id="nav-bar">
+      <div id="logo"></div>
+      <div id="keys">
+        <a>HUD</a>
+        <a>Camera</a>
+        <a>Console</a>
+        <a onclick="overlay()">script mode</a>
+      </div>
+    </div>
+
+    <!-- main section -->
+    <div id="main-area">
+      <div id="col1">
+        <!-- maps -->
+        <div id="map"></div>
+        <!-- console -->
+        <div id="console">
+          <div id="output"></div>
+          <div id="input_box">
+            <input id="command" type="text" placeholder="Enter command" autofocus>
+            <button onclick="sendCommand()">Send</button>
+          </div>
+        </div>
+      </div>
+      <div id="col2">
+        <!-- hud -->
+        <div id="hud"><p id="altitude">Altitude: -- m</p></div>
+        <!-- camera -->
+        <div id="camera">
+          <img id="videoframe" alt="No feed" />
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+  </body>
+</html>
