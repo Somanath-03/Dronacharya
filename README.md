@@ -81,13 +81,7 @@ dronacharya/
    sim_vehicle.py -v copter --console --map -w --out 127.0.0.1:14551 --out 127.0.0.1:14552
    ```
 
-2. **Connect MAVProxy (optional)**
-
-   ```bash
-   mavproxy.py --master=udp:127.0.0.1:14552
-   ```
-
-3. **Run the application on a seperate terminal**
+2. **Run the application on a seperate terminal**
 
    ```bash
 
@@ -95,7 +89,7 @@ dronacharya/
    python3 new_main.py
    ```
 
-4. **Access the web interface**
+3. **Access the web interface**
    Open your browser and navigate to `http://127.0.0.1:5000`
 
 ## 🎯 Key Components
