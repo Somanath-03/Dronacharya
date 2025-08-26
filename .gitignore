@@ -214,3 +214,6 @@ Face_Images_copy/
 *.bin
 *.parm
 *.raw
+
+
+temp_files/

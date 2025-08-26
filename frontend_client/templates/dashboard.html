@@ -23,12 +23,26 @@
   </head>
 
   <body>
-  <div id="content">
+  <!-- Removed separate nav for AI Script button -->
+   <div id="content" class="light-mode">
+    <!-- AI Script Modal -->
+    <div id="aiScriptModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+      <div style="background:#222; color:#fff; padding:32px; border-radius:12px; width:400px; margin:auto; position:relative;">
+        <span style="position:absolute; top:12px; right:18px; font-size:1.5em; cursor:pointer;" onclick="document.getElementById('aiScriptModal').style.display='none'">&times;</span>
+        <h2 style="text-align:center; margin-bottom:18px;">AI Script</h2>
+        <input type="text" id="aiInput" placeholder="Type your script here..." style="width:100%; padding:10px; border-radius:6px; border:none; margin-bottom:16px; font-size:1em;">
+        <button id="aiSubmit" style="width:100%; padding:10px; background:#4caf50; color:#fff; border:none; border-radius:6px; font-size:1em; cursor:pointer;">Submit</button>
+        <div class="output" id="aiOutput" style="margin-top:18px; min-height:40px; background:#333; border-radius:6px; padding:10px; font-size:1em;"></div>
+      </div>
+    </div>
     <div id="scriptmodeenable" >
       <div id="overlay">
         <h1 onclick="off()">Enter Mavproxy Script Commands</h1>
         <textarea id="script"></textarea>
-        <input type="submit" value="Simulate" onclick="simulate()">
+        <div id="script-actions">
+          <input type="submit" value="Run Script" onclick="simulate()">
+          <button type="button" onclick="off()">Cancel</button>
+        </div>
       </div>
     </div>
 
@@ -36,37 +50,133 @@
     <div id="nav-bar">
       <div id="logo"></div>
       <div id="keys">
-        <a>HUD</a>
-        <a>Camera</a>
-        <a>Console</a>
-        <a onclick="overlay()">script mode</a>
+        <a data-toggle="metrics">HUD</a>
+        <a data-toggle="map">Map</a>
+        <a data-toggle="console">Console</a>
+        <a data-toggle="camera">Camera</a>
+        <a data-toggle="attitude">Attitude</a>
+        <a onclick="overlay()">Script</a>
+        <button id="toggleAIScript" style="margin-left:8px; padding: 8px 16px; background: #4caf50; color: #fff; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; vertical-align: middle;">AI Script</button>
+      </div>
+      <div id="actions-bar">
+        <button id="followToggle" class="small" onclick="toggleFollow()" title="Toggle map follow">Follow: ON</button>
+        <button id="themeToggle" class="small" onclick="toggleTheme()" title="Toggle light/dark mode">Dark</button>
       </div>
     </div>
 
-    <!-- main section -->
+    <div id="status-bar">
+      <span id="connStatus" class="status-dot disconnected">Disconnected</span>
+      <span id="lastUpdate">Last update: --</span>
+      <span id="latency">Latency: -- ms</span>
+      <span id="videoFps">Video: -- fps</span>
+    </div>
+
+    <!-- metrics tiles removed from top; now inside right column -->
+
     <div id="main-area">
-      <div id="col1">
-        <!-- maps -->
-        <div id="map"></div>
-        <!-- console -->
-        <div id="console">
+      <div id="col1" class="layout-col">
+        <div id="metrics" class="hud-bar"></div>
+        <div id="map" class="panel"></div>
+        <div id="console" class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Console <span id="consoleBadge" class="badge">0</span></span>
+            <div class="panel-actions">
+              <select id="consoleFilter">
+                <option value="all">All</option>
+                <option value="info">Info</option>
+                <option value="warn">Warn</option>
+                <option value="error">Error</option>
+              </select>
+              <button id="consoleClear" onclick="clearConsole()">Clear</button>
+            </div>
+          </div>
           <div id="output"></div>
           <div id="input_box">
-            <input id="command" type="text" placeholder="Enter command" autofocus>
+            <input id="command" type="text" placeholder="Enter command" autofocus autocomplete="off">
             <button onclick="sendCommand()">Send</button>
           </div>
         </div>
       </div>
-      <div id="col2">
-        <!-- hud -->
-        <div id="hud"><p id="altitude">Altitude: -- m</p></div>
-        <!-- camera -->
-        <div id="camera">
+      <div id="col2" class="layout-col">
+        <div id="camera" class="panel">
+          <div id="camera-header">
+            <span>Camera</span>
+            <span id="frameAge">Age: -- ms</span>
+          </div>
           <img id="videoframe" alt="No feed" />
+        </div>
+        <div id="attitude" class="panel attitude-panel">
+          <div class="att-row">
+            <div class="att-left">
+              <div class="attitude-wrapper">
+                <div id="horizon">
+                  <div id="horizon-sky"></div>
+                  <div id="horizon-ground"></div>
+                  <div id="pitch-lines"></div>
+                </div>
+                <div id="bank-scale">
+                  <div class="bank-marker" data-angle="-60"></div>
+                  <div class="bank-marker" data-angle="-30"></div>
+                  <div class="bank-marker" data-angle="0"></div>
+                  <div class="bank-marker" data-angle="30"></div>
+                  <div class="bank-marker" data-angle="60"></div>
+                </div>
+                <div id="center-marker"></div>
+              </div>
+              <div class="attitude-readouts">
+                <span id="rollRead">Roll: --</span>
+                <span id="pitchRead">Pitch: --</span>
+                <span id="yawRead">Yaw: --</span>
+              </div>
+            </div>
+            <div class="att-side">
+              <div class="side-top">
+                <div id="altitude-tape" class="narrow compact">
+                  <div id="altitude-scale"></div>
+                  <div id="altitude-current">--</div>
+                </div>
+                <div class="engine-console rpm-deck" id="rpmDeck"><!-- dynamic rpm gauges injected here --></div>
+              </div>
+              <div class="battery-status">
+                <div class="battery-shell">
+                  <div class="battery-level" id="batteryLevel"></div>
+                  <div class="battery-cap"></div>
+                </div>
+                <div class="battery-text" id="batteryText">--%</div>
+                <div class="battery-voltage" id="batteryVolt">-- V</div>
+                <div class="battery-current" id="batteryCurrent">-- A</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var aiBtn = document.getElementById('toggleAIScript');
+      var aiModal = document.getElementById('aiScriptModal');
+      var aiSubmit = document.getElementById('aiSubmit');
+      var aiInput = document.getElementById('aiInput');
+      var aiOutput = document.getElementById('aiOutput');
+      if (aiBtn && aiModal) {
+        aiBtn.onclick = function() {
+          aiModal.style.display = 'flex';
+        };
+      }
+      // Socket.io connection
+      const socket = io();
+      if (aiSubmit && aiInput) {
+        aiSubmit.onclick = function() {
+          const input = aiInput.value;
+          socket.emit('ai_script', { text: input });
+        };
+      }
+      socket.on('ai_script_response', function(data) {
+        if (aiOutput) aiOutput.innerText = data.result;
+      });
+    });
+   </script>
   </body>
 </html>
