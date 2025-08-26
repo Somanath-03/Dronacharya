@@ -60,37 +60,39 @@ dronacharya/
    venv\Scripts\activate     # On Windows
    ```
 
-
 3. **Install dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 4. **Install wxPython (for SITL/WSL environments)**
-    - On Linux (including WSL):
-       ```bash
-       pip install wxpython
-       # If you encounter issues, download the wheel from https://wxpython.org/pages/downloads/ and install manually:
-       pip install /path/to/wxpython-*.whl
-       ```
-    - On Windows:
-       ```bash
-       pip install wxpython
-       ```
 
-    - For SITL simulation, wxPython is required for graphical map and console windows.
+   - On Linux (including WSL):
+     ```bash
+     pip install wxpython
+     # If you encounter issues, download the wheel from https://wxpython.org/pages/downloads/ and install manually:
+     pip install /path/to/wxpython-*.whl
+     ```
+   - On Windows:
+
+     ```bash
+     pip install wxpython
+     ```
+
+   - For SITL simulation, wxPython is required for graphical map and console windows.
 
 5. **Set Hugging Face API Token (for online model inference)**
-    - Get your token from https://huggingface.co/settings/tokens
-    - Export it in your shell before running the app:
-       ```bash
-       export HF_TOKEN=hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-       ```
-    - In your Python code, access it with:
-       ```python
-       import os
-       api_key = os.environ["HF_TOKEN"]
-       ```
+   - Get your token from https://huggingface.co/settings/tokens
+   - Export it in your shell before running the app:
+     ```bash
+     export HF_TOKEN=hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+     ```
+   - In your Python code, access it with:
+     ```python
+     import os
+     api_key = os.environ["HF_TOKEN"]
+     ```
 
 ### 🛩️ Running with SITL Simulation
 
@@ -131,8 +133,6 @@ dronacharya/
 - **Telemetry Streaming**: Real-time data from VFR_HUD and GPS_RAW_INT messages
 - **Command Interface**: Send commands directly to the autopilot
 - **SITL Compatible**: Full integration with ArduPilot SITL simulation
-
-
 
 ## 🔧 Configuration
 
@@ -176,13 +176,11 @@ dronacharya/
 python3 frontend_client/Face_Trainer.py
 ```
 
-
 ## 🙏 Acknowledgments
 
 - [ArduPilot](https://ardupilot.org/) - Open source autopilot system
 - [OpenCV](https://opencv.org/) - Computer vision library
 - [Flask](https://flask.palletsprojects.com/) - Web framework
 - [MAVLink](https://mavlink.io/) - Communication protocol for drones
-
 
 **⚠️ Safety Notice**: Always follow local regulations and safety guidelines when operating drones. This software is for educational and research purposes.
