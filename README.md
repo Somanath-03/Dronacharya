@@ -22,19 +22,11 @@ A comprehensive drone control and monitoring system with real-time face detectio
 ```
 dronacharya/
 ├── frontend_client/           # Main Flask application
-│   ├── main.py               # Original application file
 │   ├── new_main.py           # Enhanced main application with web terminal
-│   ├── cam.py                # Camera handling utilities
-│   ├── Face_Recog.py         # Face recognition logic
-│   ├── Face_Trainer.py       # Face training utilities
-│   ├── templates/            # HTML templates
-│   ├── static/              # CSS, JS, and static assets
-│   ├── output-face-ymls/    # Face recognition models
+│   ├── templates/            # HTML templates (dashboard, camera, ai_script)
+│   ├── static/               # CSS, JS, and static assets
 │   └── haarcascade_frontalface_default.xml  # OpenCV face detection model
-├── mcp-server/              # Model Context Protocol server
-│   ├── main.py             # MCP server implementation
-│   ├── mcp_server.py       # Server logic
-│   └── pyproject.toml      # MCP project configuration
+
 ├── terrain/                 # Terrain data files
 ├── requirements.txt         # Python dependencies
 ├── imp_cmd.txt             # Important commands reference
@@ -68,10 +60,37 @@ dronacharya/
    venv\Scripts\activate     # On Windows
    ```
 
+
 3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Install wxPython (for SITL/WSL environments)**
+    - On Linux (including WSL):
+       ```bash
+       pip install wxpython
+       # If you encounter issues, download the wheel from https://wxpython.org/pages/downloads/ and install manually:
+       pip install /path/to/wxpython-*.whl
+       ```
+    - On Windows:
+       ```bash
+       pip install wxpython
+       ```
+
+    - For SITL simulation, wxPython is required for graphical map and console windows.
+
+5. **Set Hugging Face API Token (for online model inference)**
+    - Get your token from https://huggingface.co/settings/tokens
+    - Export it in your shell before running the app:
+       ```bash
+       export HF_TOKEN=hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+       ```
+    - In your Python code, access it with:
+       ```python
+       import os
+       api_key = os.environ["HF_TOKEN"]
+       ```
 
 ### 🛩️ Running with SITL Simulation
 
@@ -113,10 +132,7 @@ dronacharya/
 - **Command Interface**: Send commands directly to the autopilot
 - **SITL Compatible**: Full integration with ArduPilot SITL simulation
 
-### Mission Control Protocol (MCP)
 
-- **Server Implementation**: Advanced mission control capabilities
-- **Navigation Interface**: Integration with mapping services for route planning
 
 ## 🔧 Configuration
 
@@ -160,9 +176,6 @@ dronacharya/
 python3 frontend_client/Face_Trainer.py
 ```
 
-### MCP Server Development
-
-The MCP server is located in `mcp-server/` and provides advanced mission control capabilities.
 
 ## 🙏 Acknowledgments
 
